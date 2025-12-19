@@ -53,7 +53,7 @@ public class SettingsForm : Form
         // Form configuration
         this.Text = "Transmission Tray Agent - Settings";
         this.Width = 450;
-        this.Height = 650;
+        this.Height = 670;
         this.FormBorderStyle = FormBorderStyle.FixedDialog;
         this.MaximizeBox = false;
         this.MinimizeBox = false;
@@ -202,7 +202,7 @@ public class SettingsForm : Form
             Left = 10,
             Top = currentY,
             Width = 420,
-            Height = 220
+            Height = 240
         };
         this.Controls.Add(groupBoxGameDetection);
 
@@ -248,11 +248,11 @@ public class SettingsForm : Form
             Text = "Enter process names (e.g., 'overwatch.exe', 'valorant.exe'):",
             Left = 10,
             Top = groupBoxY,
-            Width = 380,
-            Height = 15
+            Width = 400,
+            Height = 35
         };
         groupBoxGameDetection.Controls.Add(labelGameInstructions);
-        groupBoxY += 20;
+        groupBoxY += 40;
 
         // Process list box
         listBoxGames = new ListBox
@@ -296,7 +296,7 @@ public class SettingsForm : Form
         buttonRemoveGame.Click += ButtonRemoveGame_Click;
         groupBoxGameDetection.Controls.Add(buttonRemoveGame);
 
-        currentY += 230;
+        currentY += 250;
 
         // Buttons
         buttonTestConnection = new Button
