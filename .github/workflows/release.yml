@@ -77,13 +77,22 @@ jobs:
         run: |
           $version = "${{ github.event.inputs.version }}"
           $assetPath = "TransmissionTrayAgent-$version-win-x64.exe"
-          $prerelease = if ("${{ github.event.inputs.prerelease }}" -eq "true") { "--prerelease" } else { "" }
 
-          gh release create $version `
-            $assetPath `
-            SHA256SUMS.txt `
-            --title "Release $version" `
-            --notes "Release $version of Transmission Tray Agent for Windows (x64)`n`nSee README for installation instructions." `
-            --target ${{ github.sha }} `
-            $prerelease
+          # Build the command arguments
+          $args = @(
+            $version,
+            $assetPath,
+            "SHA256SUMS.txt",
+            "--title", "Release $version",
+            "--notes", "Release $version of Transmission Tray Agent for Windows (x64)`n`nSee README for installation instructions.",
+            "--target", "${{ github.sha }}"
+          )
+
+          # Add prerelease flag if needed
+          if ("${{ github.event.inputs.prerelease }}" -eq "true") {
+            $args += "--prerelease"
+          }
+
+          # Execute the command
+          gh release create @args
         shell: pwsh
