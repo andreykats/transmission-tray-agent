@@ -19,6 +19,7 @@ public class SettingsForm : Form
     private Button buttonSave;
     private Button buttonCancel;
     private Button buttonTestConnection;
+    private Button buttonTestNotification;
 
     // Game Detection UI Controls
     private GroupBox groupBoxGameDetection;
@@ -303,10 +304,20 @@ public class SettingsForm : Form
             Text = "Test Connection",
             Left = 10,
             Top = currentY,
-            Width = 120
+            Width = 130
         };
         buttonTestConnection.Click += ButtonTestConnection_Click;
         this.Controls.Add(buttonTestConnection);
+
+        buttonTestNotification = new Button
+        {
+            Text = "Test Notification",
+            Left = 145,
+            Top = currentY,
+            Width = 130
+        };
+        buttonTestNotification.Click += ButtonTestNotification_Click;
+        this.Controls.Add(buttonTestNotification);
 
         buttonCancel = new Button
         {
@@ -469,6 +480,36 @@ public class SettingsForm : Form
     {
         this.DialogResult = DialogResult.Cancel;
         this.Close();
+    }
+
+    private void ButtonTestNotification_Click(object? sender, EventArgs e)
+    {
+        // Create a temporary NotifyIcon to test notifications
+        using var testIcon = new NotifyIcon();
+        testIcon.Icon = SystemIcons.Application;
+        testIcon.Visible = true;
+        testIcon.Text = "Transmission Tray Agent - Test";
+
+        // Show test notification
+        testIcon.ShowBalloonTip(
+            5000,
+            "Test Notification",
+            "If you can see this, notifications are working correctly!",
+            ToolTipIcon.Info
+        );
+
+        // Keep the icon visible for a few seconds
+        System.Threading.Thread.Sleep(100);
+
+        MessageBox.Show(
+            "Test notification sent!\n\n" +
+            "If you didn't see a notification, check:\n" +
+            "1. Windows Focus Assist settings (should be Off or Priority only)\n" +
+            "2. Windows Notifications & actions settings\n" +
+            "3. Make sure 'Get notifications from apps and other senders' is ON",
+            "Test Notification",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
     }
 
     // Game Detection Event Handlers

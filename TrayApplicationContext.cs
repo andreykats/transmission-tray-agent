@@ -232,12 +232,10 @@ public class TrayApplicationContext : ApplicationContext
         {
             if (!_settings.DisableNotifications)
             {
-                _trayIcon.ShowBalloonTip(
-                    3000,
-                    "Transmission Tray Agent",
-                    "Cannot toggle: Not connected to Transmission server",
-                    ToolTipIcon.Error
-                );
+                _trayIcon.BalloonTipTitle = "Transmission Tray Agent";
+                _trayIcon.BalloonTipText = "Cannot toggle: Not connected to Transmission server";
+                _trayIcon.BalloonTipIcon = ToolTipIcon.Error;
+                _trayIcon.ShowBalloonTip(5000);
             }
             return;
         }
@@ -281,24 +279,20 @@ public class TrayApplicationContext : ApplicationContext
             // Show balloon tip based on what we tried to do
             if (!_settings.DisableNotifications)
             {
-                _trayIcon.ShowBalloonTip(
-                    2000,
-                    "Transmission Tray Agent",
-                    wasPausing ? "All torrents paused" : "All torrents resumed",
-                    ToolTipIcon.Info
-                );
+                _trayIcon.BalloonTipTitle = "Transmission Tray Agent";
+                _trayIcon.BalloonTipText = wasPausing ? "All torrents paused" : "All torrents resumed";
+                _trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                _trayIcon.ShowBalloonTip(5000);
             }
         }
         catch (Exception ex)
         {
             if (!_settings.DisableNotifications)
             {
-                _trayIcon.ShowBalloonTip(
-                    3000,
-                    "Transmission Tray Agent",
-                    $"Error: {ex.Message}",
-                    ToolTipIcon.Error
-                );
+                _trayIcon.BalloonTipTitle = "Transmission Tray Agent";
+                _trayIcon.BalloonTipText = $"Error: {ex.Message}";
+                _trayIcon.BalloonTipIcon = ToolTipIcon.Error;
+                _trayIcon.ShowBalloonTip(5000);
             }
 
             UpdateIcon(TrayIconState.Disconnected);
@@ -322,12 +316,10 @@ public class TrayApplicationContext : ApplicationContext
             // Settings changed, restart application to apply
             if (!currentSettings.DisableNotifications)
             {
-                _trayIcon.ShowBalloonTip(
-                    3000,
-                    "Transmission Tray Agent",
-                    "Settings saved. Please restart the application for changes to take effect.",
-                    ToolTipIcon.Info
-                );
+                _trayIcon.BalloonTipTitle = "Transmission Tray Agent";
+                _trayIcon.BalloonTipText = "Settings saved. Please restart the application for changes to take effect.";
+                _trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                _trayIcon.ShowBalloonTip(5000);
             }
         }
     }
@@ -381,12 +373,13 @@ public class TrayApplicationContext : ApplicationContext
                 // Show notification
                 if (!_settings.DisableNotifications)
                 {
-                    _trayIcon.ShowBalloonTip(
-                        3000,
-                        "Game Detected",
-                        $"{gameName} started. Torrents automatically paused.",
-                        ToolTipIcon.Info
-                    );
+                    _syncContext.Post(_ =>
+                    {
+                        _trayIcon.BalloonTipTitle = "Game Detected";
+                        _trayIcon.BalloonTipText = $"{gameName} started. Torrents automatically paused.";
+                        _trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        _trayIcon.ShowBalloonTip(5000);
+                    }, null);
                 }
             }
             catch (Exception ex)
@@ -395,12 +388,13 @@ public class TrayApplicationContext : ApplicationContext
 
                 if (!_settings.DisableNotifications)
                 {
-                    _trayIcon.ShowBalloonTip(
-                        3000,
-                        "Auto-Pause Failed",
-                        $"Could not pause torrents: {ex.Message}",
-                        ToolTipIcon.Error
-                    );
+                    _syncContext.Post(_ =>
+                    {
+                        _trayIcon.BalloonTipTitle = "Auto-Pause Failed";
+                        _trayIcon.BalloonTipText = $"Could not pause torrents: {ex.Message}";
+                        _trayIcon.BalloonTipIcon = ToolTipIcon.Error;
+                        _trayIcon.ShowBalloonTip(5000);
+                    }, null);
                 }
             }
         }
@@ -409,12 +403,13 @@ public class TrayApplicationContext : ApplicationContext
             // NOTIFY-ONLY MODE
             if (!_settings.DisableNotifications)
             {
-                _trayIcon.ShowBalloonTip(
-                    5000,
-                    "Game Detected",
-                    $"{gameName} is running. You may want to pause torrents to reduce lag.",
-                    ToolTipIcon.Warning
-                );
+                _syncContext.Post(_ =>
+                {
+                    _trayIcon.BalloonTipTitle = "Game Detected";
+                    _trayIcon.BalloonTipText = $"{gameName} is running. You may want to pause torrents to reduce lag.";
+                    _trayIcon.BalloonTipIcon = ToolTipIcon.Warning;
+                    _trayIcon.ShowBalloonTip(5000);
+                }, null);
             }
         }
     }
@@ -440,12 +435,13 @@ public class TrayApplicationContext : ApplicationContext
                 // Show notification
                 if (!_settings.DisableNotifications)
                 {
-                    _trayIcon.ShowBalloonTip(
-                        3000,
-                        "Game Closed",
-                        $"{displayName} has closed. Torrents automatically resumed.",
-                        ToolTipIcon.Info
-                    );
+                    _syncContext.Post(_ =>
+                    {
+                        _trayIcon.BalloonTipTitle = "Game Closed";
+                        _trayIcon.BalloonTipText = $"{displayName} has closed. Torrents automatically resumed.";
+                        _trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        _trayIcon.ShowBalloonTip(5000);
+                    }, null);
                 }
             }
             catch (Exception ex)
@@ -455,12 +451,13 @@ public class TrayApplicationContext : ApplicationContext
 
                 if (!_settings.DisableNotifications)
                 {
-                    _trayIcon.ShowBalloonTip(
-                        3000,
-                        "Auto-Resume Failed",
-                        $"Could not resume torrents: {ex.Message}",
-                        ToolTipIcon.Error
-                    );
+                    _syncContext.Post(_ =>
+                    {
+                        _trayIcon.BalloonTipTitle = "Auto-Resume Failed";
+                        _trayIcon.BalloonTipText = $"Could not resume torrents: {ex.Message}";
+                        _trayIcon.BalloonTipIcon = ToolTipIcon.Error;
+                        _trayIcon.ShowBalloonTip(5000);
+                    }, null);
                 }
             }
         }
@@ -469,12 +466,13 @@ public class TrayApplicationContext : ApplicationContext
             // Notify-only mode: just inform user game closed
             if (!_settings.DisableNotifications)
             {
-                _trayIcon.ShowBalloonTip(
-                    3000,
-                    "Game Closed",
-                    $"{gameName} has closed.",
-                    ToolTipIcon.Info
-                );
+                _syncContext.Post(_ =>
+                {
+                    _trayIcon.BalloonTipTitle = "Game Closed";
+                    _trayIcon.BalloonTipText = $"{gameName} has closed.";
+                    _trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                    _trayIcon.ShowBalloonTip(5000);
+                }, null);
             }
         }
     }
